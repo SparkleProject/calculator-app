@@ -24,6 +24,7 @@ public class SimpleCommandResolver implements CommandResolver{
         return new Expression(operation, operands);
     }
 
+
     private List<Double> getOperands(
             String input,
             int requiredNum
