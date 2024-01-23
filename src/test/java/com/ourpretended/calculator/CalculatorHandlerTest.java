@@ -1,0 +1,60 @@
+package com.ourpretended.calculator;
+
+import static shiver.me.timbers.data.random.RandomStrings.someAlphanumericString;
+import static shiver.me.timbers.data.random.RandomDoubles.someDouble;
+
+import com.ourpretended.calculator.config.OperationConfig;
+import com.ourpretended.calculator.factory.OperationFactory;
+import com.ourpretended.calculator.model.Expression;
+import com.ourpretended.calculator.operation.Operation;
+import com.ourpretended.calculator.service.SimpleCommandResolver;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.util.List;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
+
+class CalculatorHandlerTest {
+
+    private CalculatorHandler calculator;
+    private SimpleCommandResolver commandResolver;
+    private OperationFactory operationFactory;
+
+    @BeforeEach
+    void setUp() {
+        commandResolver = mock(SimpleCommandResolver.class);
+        operationFactory = mock(OperationFactory.class);
+        calculator = new CalculatorHandler(
+                commandResolver,
+                operationFactory
+        );
+    }
+
+    @Test
+    void canCalculateWithCommandInput(){
+        final String command = someAlphanumericString();
+        final String operationStr = someAlphanumericString();
+        final Expression expression = mock(Expression.class);
+        final Double expected = someDouble();
+        final Operation operation = mock(Operation.class);
+        final List<Double> operands = mock(List.class);
+        // Given
+        given(operationFactory.buildOperation(expression)).willReturn(operation);
+        given(commandResolver.mapToExpression(command)).willReturn(expression);
+        given(expression.getOperation()).willReturn(operationStr);
+        given(expression.getOperands()).willReturn(operands);
+        given(operation.execute(operands)).willReturn(expected);
+
+        // When
+        final String actual = calculator.calculate(command);
+
+        // Then
+        assertThat(actual, equalTo(String.valueOf(expected)));
+
+    }
+
+}
