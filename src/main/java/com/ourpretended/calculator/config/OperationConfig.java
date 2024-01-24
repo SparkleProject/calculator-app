@@ -3,6 +3,7 @@ package com.ourpretended.calculator.config;
 import com.ourpretended.calculator.operation.AdditionOperation;
 import com.ourpretended.calculator.operation.DivisionOperation;
 import com.ourpretended.calculator.operation.MultiplicationOperation;
+import com.ourpretended.calculator.operation.Operation;
 import com.ourpretended.calculator.operation.SubtractionOperation;
 
 import java.util.HashMap;
@@ -20,12 +21,12 @@ public enum OperationConfig {
 
     private final int requiredOperandNum;
 
-    private final Class<?> operationClass;
+    private final Class<? extends Operation> operationClass;
 
     OperationConfig(
            String operation,
            int requiredOperandNum,
-           Class<?> operationClass
+           Class<? extends Operation> operationClass
     ){
         this.operation = operation;
         this.requiredOperandNum = requiredOperandNum;
@@ -43,7 +44,7 @@ public enum OperationConfig {
     ){
         return map.get(operationStr);
     }
-    public Class<?> getOperationClass() {
+    public Class<? extends Operation> getOperationClass() {
         return operationClass;
     }
 

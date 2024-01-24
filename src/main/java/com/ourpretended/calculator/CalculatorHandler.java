@@ -28,8 +28,8 @@ public class CalculatorHandler {
         return String.valueOf(result);
     }
 
-    /*public static void main(String[] args) {
-        String input = "4.664 / 3.3";
+    public static void main(String[] args) {
+        String input = "4.664 * 3.3";
 
         CommandResolver resolver = new SimpleCommandResolver();
         OperationFactory factory = new OperationFactory();
@@ -37,5 +37,5 @@ public class CalculatorHandler {
         String result = calculator.calculate(input);
         System.out.println(result);
 
-    }*/
+    }
 }

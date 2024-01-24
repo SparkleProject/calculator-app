@@ -15,8 +15,8 @@ public class OperationFactory {
         try {
             OperationConfig operationConfig = OperationConfig.fromOperationString(expression.getOperation());
             if(operationConfig != null){
-                Class<?> operationCls = operationConfig.getOperationClass();
-                return (Operation) operationCls.getDeclaredConstructor().newInstance();
+                Class< ? extends Operation> operationCls = operationConfig.getOperationClass();
+                return operationCls.getDeclaredConstructor().newInstance();
             }
         }catch (Exception exception){
             System.out.println("Failed to build Operation with name: " + expression.getOperation());
