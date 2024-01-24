@@ -1,4 +1,4 @@
-package com.ourpretended.calculator.Validator;
+package com.ourpretended.calculator.validator;
 
 import com.ourpretended.calculator.config.OperationConfig;
 import com.ourpretended.calculator.exception.IllegalExpressionException;

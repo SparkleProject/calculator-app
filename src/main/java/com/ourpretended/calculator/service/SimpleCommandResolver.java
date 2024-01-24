@@ -2,7 +2,7 @@ package com.ourpretended.calculator.service;
 
 import static com.ourpretended.calculator.config.ApplicationConstants.OPERAND_REGEX;
 import static com.ourpretended.calculator.config.ApplicationConstants.OPERATION_REGEX;
-import com.ourpretended.calculator.Validator.SimpleCommandValidator;
+import com.ourpretended.calculator.validator.SimpleCommandValidator;
 import com.ourpretended.calculator.config.OperationConfig;
 import com.ourpretended.calculator.exception.IllegalOperandException;
 import com.ourpretended.calculator.exception.IllegalOperationException;

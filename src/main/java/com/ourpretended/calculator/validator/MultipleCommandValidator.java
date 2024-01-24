@@ -1,4 +1,4 @@
-package com.ourpretended.calculator.Validator;
+package com.ourpretended.calculator.validator;
 
 import com.ourpretended.calculator.exception.IllegalOperandException;
 import static com.ourpretended.calculator.config.ApplicationConstants.OPERAND_REGEX;
