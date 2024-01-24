@@ -29,7 +29,7 @@ public class CalculatorHandler {
     }
 
     public static void main(String[] args) {
-        String input = "4.664 * 3.3";
+        String input = "4.664 + 3.3";
 
         CommandResolver resolver = new SimpleCommandResolver();
         OperationFactory factory = new OperationFactory();

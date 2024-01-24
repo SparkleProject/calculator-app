@@ -1,5 +1,6 @@
 package com.ourpretended.calculator.service;
 
+import com.ourpretended.calculator.Validator.SimpleCommandValidator;
 import com.ourpretended.calculator.config.OperationConfig;
 import com.ourpretended.calculator.exception.IllegalOperandException;
 import com.ourpretended.calculator.exception.IllegalOperationException;
@@ -10,11 +11,10 @@ import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import static com.ourpretended.calculator.Validator.SimpleCommandValidator.OPERAND_REGEX;
+import static com.ourpretended.calculator.Validator.SimpleCommandValidator.OPERATION_REGEX;
+
 public class SimpleCommandResolver implements CommandResolver{
-
-    private final static String OPERAND_REGEX = "[0-9]+[.]?[0-9]*";
-    private final static String OPERATION_REGEX = "[+\\-*/]";
-
 
     @Override
     public Expression mapToExpression(String input){
