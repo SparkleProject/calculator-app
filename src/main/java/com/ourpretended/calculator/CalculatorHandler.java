@@ -22,6 +22,7 @@ public class CalculatorHandler {
 
 
     public String calculate(String input){
+        commandResolver.validateInput(input);
         Expression expression = commandResolver.mapToExpression(input);
         Operation operation =  operationFactory.buildOperation(expression);
         Double result = operation.execute(expression.getOperands());
@@ -29,7 +30,7 @@ public class CalculatorHandler {
     }
 
     public static void main(String[] args) {
-        String input = "4.664 + 3.3";
+        String input = "4.664 / 3.1";
 
         CommandResolver resolver = new SimpleCommandResolver();
         OperationFactory factory = new OperationFactory();

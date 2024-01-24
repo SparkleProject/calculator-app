@@ -1,5 +1,7 @@
 package com.ourpretended.calculator.service;
 
+import static com.ourpretended.calculator.config.ApplicationConstants.OPERAND_REGEX;
+import static com.ourpretended.calculator.config.ApplicationConstants.OPERATION_REGEX;
 import com.ourpretended.calculator.Validator.SimpleCommandValidator;
 import com.ourpretended.calculator.config.OperationConfig;
 import com.ourpretended.calculator.exception.IllegalOperandException;
@@ -11,17 +13,21 @@ import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import static com.ourpretended.calculator.Validator.SimpleCommandValidator.OPERAND_REGEX;
-import static com.ourpretended.calculator.Validator.SimpleCommandValidator.OPERATION_REGEX;
 
 public class SimpleCommandResolver implements CommandResolver{
 
     @Override
     public Expression mapToExpression(String input){
+
         String operation = getOperation(input);
         int requiredOperands = OperationConfig.fromOperationString(operation).getRequiredOperandNum();
         List<Double> operands = getOperands(input, requiredOperands);
         return new Expression(operation, operands);
+    }
+
+    @Override
+    public void validateInput(String input) {
+        SimpleCommandValidator.validate(input);
     }
 
 

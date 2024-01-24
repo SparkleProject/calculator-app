@@ -1,6 +1,7 @@
 package com.ourpretended.calculator.operation;
 
 import com.ourpretended.calculator.config.ApplicationConstants;
+import com.ourpretended.calculator.exception.IllegalOperandException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -59,6 +60,6 @@ class DivisionOperationTest {
 
 
         // Then
-        assertThrows(ArithmeticException.class, () -> divisionOperation.execute(operands));
+        assertThrows(IllegalOperandException.class, () -> divisionOperation.execute(operands));
     }
 }

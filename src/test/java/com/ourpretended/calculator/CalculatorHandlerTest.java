@@ -1,9 +1,12 @@
 package com.ourpretended.calculator;
 
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static shiver.me.timbers.data.random.RandomStrings.someAlphanumericString;
 import static shiver.me.timbers.data.random.RandomDoubles.someDouble;
 
 import com.ourpretended.calculator.config.OperationConfig;
+import com.ourpretended.calculator.exception.IllegalExpressionException;
 import com.ourpretended.calculator.factory.OperationFactory;
 import com.ourpretended.calculator.model.Expression;
 import com.ourpretended.calculator.operation.Operation;
@@ -35,7 +38,7 @@ class CalculatorHandlerTest {
     }
 
     @Test
-    void canCalculateWithCommandInput(){
+    void Can_calculate_with_command_input(){
         final String command = someAlphanumericString();
         final String operationStr = someAlphanumericString();
         final Expression expression = mock(Expression.class);
@@ -43,6 +46,7 @@ class CalculatorHandlerTest {
         final Operation operation = mock(Operation.class);
         final List<Double> operands = mock(List.class);
         // Given
+        doNothing().when(commandResolver).validateInput(command);
         given(operationFactory.buildOperation(expression)).willReturn(operation);
         given(commandResolver.mapToExpression(command)).willReturn(expression);
         given(expression.getOperation()).willReturn(operationStr);
@@ -56,5 +60,6 @@ class CalculatorHandlerTest {
         assertThat(actual, equalTo(String.valueOf(expected)));
 
     }
+
 
 }
