@@ -1,58 +1,33 @@
 package com.ourpretended.calculator.config;
 
-import com.ourpretended.calculator.operation.AdditionOperation;
-import com.ourpretended.calculator.operation.DivisionOperation;
-import com.ourpretended.calculator.operation.MultiplicationOperation;
-import com.ourpretended.calculator.operation.Operation;
-import com.ourpretended.calculator.operation.SubtractionOperation;
+import com.ourpretended.calculator.operation.IOperation;
 
-import java.util.HashMap;
-import java.util.Map;
+public class OperationConfig {
 
-public enum OperationConfig {
-    ADD("+", 2, AdditionOperation.class),
-    SUB("-", 2,SubtractionOperation.class),
-    MUL("*", 2, MultiplicationOperation.class),
-    DIV("/",2, DivisionOperation.class);
+    private  String operationName;
+    private  int requiredNumbers;
+    private IOperation operationClass;
 
-    private static final Map<String, OperationConfig> map = new HashMap<>();
+    protected OperationConfig(
+            String operationName,
+            int requiredNumbers,
+            IOperation operationClass
 
-    private final String operation;
-
-    private final int requiredOperandNum;
-
-    private final Class<? extends Operation> operationClass;
-
-    OperationConfig(
-           String operation,
-           int requiredOperandNum,
-           Class<? extends Operation> operationClass
     ){
-        this.operation = operation;
-        this.requiredOperandNum = requiredOperandNum;
+        this.operationName = operationName;
+        this.requiredNumbers = requiredNumbers;
         this.operationClass = operationClass;
     }
 
-    static {
-        for (OperationConfig config : OperationConfig.values()) {
-            map.put(config.getOperation(), config);
-        }
+    public String getOperationName() {
+        return operationName;
     }
 
-    public static OperationConfig fromOperationString(
-            String operationStr
-    ){
-        return map.get(operationStr);
+    public int getRequiredNumbers() {
+        return requiredNumbers;
     }
-    public Class<? extends Operation> getOperationClass() {
+
+    public IOperation getOperationClass() {
         return operationClass;
-    }
-
-    public String getOperation() {
-        return operation;
-    }
-
-    public int getRequiredOperandNum() {
-        return requiredOperandNum;
     }
 }

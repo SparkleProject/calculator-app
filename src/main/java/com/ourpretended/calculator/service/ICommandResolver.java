@@ -3,7 +3,7 @@ package com.ourpretended.calculator.service;
 import com.ourpretended.calculator.model.Expression;
 
 
-public interface CommandResolver {
+public interface ICommandResolver {
     Expression mapToExpression(String input);
     void validateInput(String input);
 }

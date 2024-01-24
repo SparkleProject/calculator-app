@@ -5,11 +5,9 @@ import static org.mockito.Mockito.doThrow;
 import static shiver.me.timbers.data.random.RandomStrings.someAlphanumericString;
 import static shiver.me.timbers.data.random.RandomDoubles.someDouble;
 
-import com.ourpretended.calculator.config.OperationConfig;
-import com.ourpretended.calculator.exception.IllegalExpressionException;
 import com.ourpretended.calculator.factory.OperationFactory;
 import com.ourpretended.calculator.model.Expression;
-import com.ourpretended.calculator.operation.Operation;
+import com.ourpretended.calculator.operation.IOperation;
 import com.ourpretended.calculator.service.SimpleCommandResolver;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -43,8 +41,9 @@ class CalculatorHandlerTest {
         final String operationStr = someAlphanumericString();
         final Expression expression = mock(Expression.class);
         final Double expected = someDouble();
-        final Operation operation = mock(Operation.class);
+        final IOperation operation = mock(IOperation.class);
         final List<Double> operands = mock(List.class);
+
         // Given
         doNothing().when(commandResolver).validateInput(command);
         given(operationFactory.buildOperation(expression)).willReturn(operation);

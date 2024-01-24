@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
 
-public class DivisionOperation implements Operation{
+public class DivisionOperation implements IOperation {
 
     @Override
     public Double execute(List<Double> operands) {

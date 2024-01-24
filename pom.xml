@@ -26,6 +26,12 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-core</artifactId>
             <version>${hamcrest.version}</version>
@@ -43,6 +49,7 @@
             <version>${shiver-me.version}</version>
             <scope>test</scope>
         </dependency>
+
     </dependencies>
 
 </project>

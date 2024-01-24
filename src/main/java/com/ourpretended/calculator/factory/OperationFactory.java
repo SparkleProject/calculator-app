@@ -2,21 +2,29 @@ package com.ourpretended.calculator.factory;
 
 
 import com.ourpretended.calculator.config.OperationConfig;
+import com.ourpretended.calculator.config.OperationContext;
 import com.ourpretended.calculator.model.Expression;
-import com.ourpretended.calculator.operation.Operation;
+import com.ourpretended.calculator.operation.IOperation;
 
 
 
 public class OperationFactory {
 
-    public Operation buildOperation(
+    private final OperationContext context;
+
+    public OperationFactory(
+            OperationContext context
+    ){
+        this.context = context;
+    }
+
+    public IOperation buildOperation(
             Expression expression
     ) {
         try {
-            OperationConfig operationConfig = OperationConfig.fromOperationString(expression.getOperation());
+            OperationConfig operationConfig = context.fromOperationString(expression.getOperation());
             if(operationConfig != null){
-                Class< ? extends Operation> operationCls = operationConfig.getOperationClass();
-                return operationCls.getDeclaredConstructor().newInstance();
+                return operationConfig.getOperationClass();
             }
         }catch (Exception exception){
             System.out.println("Failed to build Operation with name: " + expression.getOperation());

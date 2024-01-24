@@ -1,16 +1,19 @@
 package com.ourpretended.calculator.factory;
 
 import com.ourpretended.calculator.config.OperationConfig;
+import com.ourpretended.calculator.config.OperationContext;
 import com.ourpretended.calculator.model.Expression;
-import com.ourpretended.calculator.operation.Operation;
+import com.ourpretended.calculator.operation.AdditionOperation;
+import com.ourpretended.calculator.operation.IOperation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static shiver.me.timbers.data.random.RandomStrings.someAlphaString;
-import static shiver.me.timbers.data.random.RandomEnums.someEnum;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
@@ -19,40 +22,47 @@ import static org.mockito.Mockito.mock;
 class OperationFactoryTest {
 
     private OperationFactory operationFactory;
+    private OperationContext context;
 
     @BeforeEach
     void setUp() {
-        operationFactory = new OperationFactory();
+        context = mock(OperationContext.class);
+        operationFactory = new OperationFactory(context);
     }
+
 
     @Test
     void Can_build_operation_with_expected_operation_type(){
-        final OperationConfig operationConfig = someEnum(OperationConfig.class);
-        final String operationStr = operationConfig.getOperation();
-        final Class operationClass = operationConfig.getOperationClass();
+        final String operationString = someAlphaString();
         final Expression expression = mock(Expression.class);
+        final OperationConfig operationConfig = mock(OperationConfig.class);
+        final IOperation operation =  mock(IOperation.class);
+
 
         // Given
-        given(expression.getOperation()).willReturn(operationStr);
+        given(context.fromOperationString(operationString)).willReturn(operationConfig);
+        given(operationConfig.getOperationClass()).willReturn(operation);
+        given(expression.getOperation()).willReturn(operationString);
 
         // When
-        final Operation actual = operationFactory.buildOperation(expression);
+        final IOperation actual = operationFactory.buildOperation(expression);
 
         // Then
         assertThat(actual, notNullValue());
-        assertThat(operationClass.isInstance(actual), is(true));
+        assertThat(actual, is(operation));
+
     }
 
     @Test
     void Can_fail_build_operation_with_unknown_operation(){
-        final String operationStr = someAlphaString();
+        final String operationString = someAlphaString();
         final Expression expression = mock(Expression.class);
 
         // Given
-        given(expression.getOperation()).willReturn(operationStr);
+        given(expression.getOperation()).willReturn(operationString);
 
         // When
-        final Operation actual = operationFactory.buildOperation(expression);
+        final IOperation actual = operationFactory.buildOperation(expression);
 
         // Then
         assertThat(actual, nullValue());

@@ -3,7 +3,7 @@ package com.ourpretended.calculator.operation;
 import java.math.BigDecimal;
 import java.util.List;
 
-public class MultiplicationOperation implements Operation{
+public class MultiplicationOperation implements IOperation {
 
     @Override
     public Double execute(List<Double> operands) {

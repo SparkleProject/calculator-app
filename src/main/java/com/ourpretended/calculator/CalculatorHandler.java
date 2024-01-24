@@ -1,19 +1,21 @@
 package com.ourpretended.calculator;
 
+import com.ourpretended.calculator.config.OperationContext;
 import com.ourpretended.calculator.factory.OperationFactory;
 import com.ourpretended.calculator.model.Expression;
-import com.ourpretended.calculator.operation.Operation;
-import com.ourpretended.calculator.service.CommandResolver;
+import com.ourpretended.calculator.operation.IOperation;
+import com.ourpretended.calculator.service.ICommandResolver;
 import com.ourpretended.calculator.service.SimpleCommandResolver;
+import com.ourpretended.calculator.validator.SimpleCommandValidator;
 
 
 public class CalculatorHandler {
 
-    private CommandResolver commandResolver;
+    private ICommandResolver commandResolver;
     private OperationFactory operationFactory;
 
     public CalculatorHandler(
-            CommandResolver commandResolver,
+            ICommandResolver commandResolver,
             OperationFactory operationFactory
     ){
         this.commandResolver = commandResolver;
@@ -24,17 +26,22 @@ public class CalculatorHandler {
     public String calculate(String input){
         commandResolver.validateInput(input);
         Expression expression = commandResolver.mapToExpression(input);
-        Operation operation =  operationFactory.buildOperation(expression);
+        IOperation operation =  operationFactory.buildOperation(expression);
         Double result = operation.execute(expression.getOperands());
         return String.valueOf(result);
     }
 
     public static void main(String[] args) {
-        String input = "4.664 / 3.1";
 
-        CommandResolver resolver = new SimpleCommandResolver();
-        OperationFactory factory = new OperationFactory();
+        // initialize
+        OperationContext context = new OperationContext();
+        SimpleCommandValidator commandValidator = new SimpleCommandValidator();
+        SimpleCommandResolver resolver = new SimpleCommandResolver(context, commandValidator);
+        OperationFactory factory = new OperationFactory(context);
         CalculatorHandler calculator = new CalculatorHandler(resolver, factory);
+
+        // invoke
+        String input = "4.664 + 3.1";
         String result = calculator.calculate(input);
         System.out.println(result);
 

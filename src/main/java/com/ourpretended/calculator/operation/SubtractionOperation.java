@@ -1,11 +1,9 @@
 package com.ourpretended.calculator.operation;
 
-import com.ourpretended.calculator.exception.IllegalOperandException;
-
 import java.math.BigDecimal;
 import java.util.List;
 
-public class SubtractionOperation implements Operation{
+public class SubtractionOperation implements IOperation {
 
     @Override
     public Double execute(List<Double> operands) {
