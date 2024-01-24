@@ -31,19 +31,4 @@ public class CalculatorHandler {
         return String.valueOf(result);
     }
 
-    public static void main(String[] args) {
-
-        // initialize
-        OperationContext context = new OperationContext();
-        SimpleCommandValidator commandValidator = new SimpleCommandValidator();
-        SimpleCommandResolver resolver = new SimpleCommandResolver(context, commandValidator);
-        OperationFactory factory = new OperationFactory(context);
-        CalculatorHandler calculator = new CalculatorHandler(resolver, factory);
-
-        // invoke
-        String input = "4.664 + 3.1";
-        String result = calculator.calculate(input);
-        System.out.println(result);
-
-    }
 }
