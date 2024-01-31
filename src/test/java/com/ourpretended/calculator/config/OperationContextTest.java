@@ -1,6 +1,5 @@
 package com.ourpretended.calculator.config;
 
-import com.ourpretended.calculator.operation.IOperation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -27,11 +26,11 @@ class OperationContextTest {
 
         // Then
         assertThat(operationMap, notNullValue());
-        assertThat(operationMap.size(), is(4));
+        assertThat(operationMap.size(), is(5));
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"+", "-", "*", "/"})
+    @ValueSource(strings = {"+", "-", "*", "/", "sin"})
     void Can_get_operation_config_by_name(String operationString){
 
         // when
@@ -40,5 +39,6 @@ class OperationContextTest {
         // Then
         assertThat(actual, notNullValue());
         assertThat(actual.getOperationClass(), notNullValue());
+
     }
 }

@@ -16,6 +16,9 @@ public class ApplicationConstants {
 
     public static final String OPERAND_REGEX = "[0-9]+[.]?[0-9]*";
     public static final String OPERATION_REGEX = "[+\\-*/]";
+    public static final String OPERATION_TRIGONOMETRIC_REGEX = "(sin|cos)";
+
+    public static final String SUPPORTED_OPERATIONS_REGEX = "(?:" + OPERATION_REGEX + ")|(?:"+ OPERATION_TRIGONOMETRIC_REGEX + ")";
     public static final int RESULT_SCALE_QUOTIENT = 18;
 
 

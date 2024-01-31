@@ -18,7 +18,8 @@ public class CalculatorApplication {
         CalculatorHandler calculator = new CalculatorHandler(resolver, factory);
 
         // invoke
-        String input = "4.6 + 5.8";
+        //String input = "4.6 + 5.8";
+        String input = "sin(4.5)";
         String result = calculator.calculate(input);
         System.out.println(result);
 

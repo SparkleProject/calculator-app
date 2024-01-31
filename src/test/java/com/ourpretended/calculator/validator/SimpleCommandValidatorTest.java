@@ -20,6 +20,7 @@ class SimpleCommandValidatorTest {
 
     private static final String LEGAL_INPUT_FORMAT = "%.9f %s %.9f";
     private static final String ILLEGAL_INPUT_FORMAT = "%s %s %s";
+    private static final String LEGAL_TRIGONOMETRIC_FORMAT = "%s(%.9f)";
 
     private SimpleCommandValidator simpleCommandValidator;
 
@@ -35,6 +36,17 @@ class SimpleCommandValidatorTest {
         final double firstNum = somePositiveDouble();
         final double secondNum = somePositiveDouble();
         final String command = String.format(LEGAL_INPUT_FORMAT, firstNum, operation, secondNum);
+
+        //Then
+        assertDoesNotThrow(() -> simpleCommandValidator.validate(command));
+
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"sin", "cos"})
+    void Can_validate_legal_trigonometric_input_command(String operation){
+        final double firstNum = somePositiveDouble();
+        final String command = String.format(LEGAL_TRIGONOMETRIC_FORMAT, operation, firstNum);
 
         //Then
         assertDoesNotThrow(() -> simpleCommandValidator.validate(command));

@@ -1,7 +1,8 @@
 package com.ourpretended.calculator.service;
 
 import static com.ourpretended.calculator.config.ApplicationConstants.OPERAND_REGEX;
-import static com.ourpretended.calculator.config.ApplicationConstants.OPERATION_REGEX;
+import static com.ourpretended.calculator.config.ApplicationConstants.SUPPORTED_OPERATIONS_REGEX;
+
 
 import com.ourpretended.calculator.config.OperationContext;
 import com.ourpretended.calculator.validator.ICommandValidator;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 
 
 public class SimpleCommandResolver implements ICommandResolver {
+
 
     private final ICommandValidator validator;
     private final OperationContext context;
@@ -44,7 +46,7 @@ public class SimpleCommandResolver implements ICommandResolver {
     }
 
 
-    private List<Double> getOperands(
+    protected List<Double> getOperands(
             String input,
             int requiredNumbers
     ){
@@ -63,8 +65,8 @@ public class SimpleCommandResolver implements ICommandResolver {
         return operands;
     }
 
-    private String getOperation(String input){
-        Pattern operationPattern = Pattern.compile(OPERATION_REGEX);
+    protected String getOperation(String input){
+        Pattern operationPattern = Pattern.compile(SUPPORTED_OPERATIONS_REGEX);
         List<String> operations =
                 operationPattern.matcher(input)
                 .results()

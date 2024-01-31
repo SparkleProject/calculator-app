@@ -3,9 +3,11 @@ package com.ourpretended.calculator.service;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.in;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import static org.mockito.ArgumentMatchers.notNull;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
@@ -36,6 +38,7 @@ class SimpleCommandResolverTest {
     private static final String LEGAL_INPUT_FORMAT = "%.9f %s %.9f";
     private static final String ILLEGAL_INPUT_FORMAT = "%s %s %s";
     private static final String[] EXPECTED_OPERATIONS = {"+", "-", "*", "/"};
+    private static final String[] EXPECTED_TRIGONOMETRIC_OPERATIONS = {"sin"};
     private SimpleCommandResolver commandResolver;
     private SimpleCommandValidator validator;
     private OperationContext context;
@@ -162,6 +165,27 @@ class SimpleCommandResolverTest {
 
         // Then
         assertThrows(IllegalExpressionException.class, () -> commandResolver.validateInput(command));
+
+    }
+
+    @Test
+    void Can_map_expression_with_trigonometric_input(){
+        final String operation = "sin";
+        final double number = somePositiveDouble();
+        final String input = String.format("%s(%.9f)", operation, number);
+        final OperationConfig operationConfig = mock(OperationConfig.class);
+
+        // Given
+        given(context.fromOperationString(operation)).willReturn(operationConfig);
+        given(operationConfig.getRequiredNumbers()).willReturn(1);
+
+        // When
+        final Expression actural = commandResolver.mapToExpression(input);
+
+        //Then
+        assertThat(actural.getOperation(), equalTo("sin"));
+        assertThat(actural.getOperands(), notNullValue());
+        assertThat(actural.getOperands().get(0), equalTo(number));
 
     }
 

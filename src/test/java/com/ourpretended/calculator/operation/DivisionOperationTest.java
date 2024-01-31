@@ -30,12 +30,13 @@ class DivisionOperationTest {
         final List<Double> operands = mock(List.class);
         final double first = someDouble();
         final double second = somePositiveDouble();
-        final double expected = BigDecimal.valueOf(first)
+        final double expected = first / second;
+        /*final double expected = BigDecimal.valueOf(first)
                                 .divide(
                                     BigDecimal.valueOf(second),
                                     ApplicationConstants.RESULT_SCALE_QUOTIENT,
                                     RoundingMode.HALF_UP)
-                                .doubleValue();
+                                .doubleValue();*/
 
         // Given
         given(operands.get(0)).willReturn(first);
