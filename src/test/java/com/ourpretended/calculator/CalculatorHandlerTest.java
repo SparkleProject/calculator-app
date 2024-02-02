@@ -2,6 +2,7 @@ package com.ourpretended.calculator;
 
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
+import static shiver.me.timbers.data.random.RandomDoubles.somePositiveDouble;
 import static shiver.me.timbers.data.random.RandomStrings.someAlphanumericString;
 import static shiver.me.timbers.data.random.RandomDoubles.someDouble;
 
@@ -42,15 +43,16 @@ class CalculatorHandlerTest {
         final Expression expression = mock(Expression.class);
         final Double expected = someDouble();
         final IOperation operation = mock(IOperation.class);
-        final List<Double> operands = mock(List.class);
+        final Double firstNumber = somePositiveDouble();
+        final Double secondNumber = somePositiveDouble();
+        final List<Double> operands = List.of(firstNumber, secondNumber);
 
         // Given
-        doNothing().when(commandResolver).validateInput(command);
-        given(operationFactory.buildOperation(expression)).willReturn(operation);
+        given(operationFactory.buildOperation(operationStr)).willReturn(operation);
         given(commandResolver.mapToExpression(command)).willReturn(expression);
         given(expression.getOperation()).willReturn(operationStr);
         given(expression.getOperands()).willReturn(operands);
-        given(operation.execute(operands)).willReturn(expected);
+        given(operation.execute(firstNumber, secondNumber)).willReturn(expected);
 
         // When
         final String actual = calculator.calculate(command);

@@ -30,7 +30,7 @@ class SimpleCommandValidatorTest {
 
 
     @ParameterizedTest
-    @ValueSource(strings = {"+", "-", "*", "/"})
+    @ValueSource(strings = {"+", "-", "*", "/","#"})
     void Can_validate_legal_input_command(String operation){
         final double firstNum = somePositiveDouble();
         final double secondNum = somePositiveDouble();

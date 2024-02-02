@@ -30,19 +30,14 @@ class DivisionOperationTest {
         final List<Double> operands = mock(List.class);
         final double first = someDouble();
         final double second = somePositiveDouble();
-        final double expected = BigDecimal.valueOf(first)
-                                .divide(
-                                    BigDecimal.valueOf(second),
-                                    ApplicationConstants.RESULT_SCALE_QUOTIENT,
-                                    RoundingMode.HALF_UP)
-                                .doubleValue();
+        final double expected = first/second;
 
         // Given
         given(operands.get(0)).willReturn(first);
         given(operands.get(1)).willReturn(second);
 
         // When
-        final Double actual = divisionOperation.execute(operands);
+        final Double actual = divisionOperation.execute(first, second);
 
         // Then
         assertThat(actual, equalTo(expected));
@@ -60,6 +55,6 @@ class DivisionOperationTest {
 
 
         // Then
-        assertThrows(IllegalOperandException.class, () -> divisionOperation.execute(operands));
+        assertThrows(IllegalOperandException.class, () -> divisionOperation.execute(first, second));
     }
 }

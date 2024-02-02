@@ -22,12 +22,12 @@ public class CalculatorHandler {
         this.operationFactory = operationFactory;
     }
 
-
     public String calculate(String input){
-        commandResolver.validateInput(input);
         Expression expression = commandResolver.mapToExpression(input);
-        IOperation operation =  operationFactory.buildOperation(expression);
-        Double result = operation.execute(expression.getOperands());
+        IOperation operation =  operationFactory.buildOperation(expression.getOperation());
+        Double firstNumber = expression.getOperands().get(0);
+        Double secondNumber = expression.getOperands().get(1);
+        Double result = operation.execute(firstNumber, secondNumber);
         return String.valueOf(result);
     }
 

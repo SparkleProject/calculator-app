@@ -11,7 +11,6 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static shiver.me.timbers.data.random.RandomStrings.someAlphaString;
 import static shiver.me.timbers.data.random.RandomDoubles.somePositiveDouble;
-import static shiver.me.timbers.data.random.RandomEnums.someEnum;
 import static shiver.me.timbers.data.random.RandomIntegers.someIntegerBetween;
 
 import com.ourpretended.calculator.config.OperationConfig;
@@ -28,6 +27,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.Arguments;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 
@@ -37,15 +37,15 @@ class SimpleCommandResolverTest {
     private static final String ILLEGAL_INPUT_FORMAT = "%s %s %s";
     private static final String[] EXPECTED_OPERATIONS = {"+", "-", "*", "/"};
     private SimpleCommandResolver commandResolver;
-    private SimpleCommandValidator validator;
-    private OperationContext context;
+    private SimpleOperationExtractor operationExtractor;
+    private SimpleOperandsExtractor operandsExtractor;
 
 
     @BeforeEach
     void setUp() {
-        validator = mock(SimpleCommandValidator.class);
-        context = mock(OperationContext.class);
-        commandResolver = new SimpleCommandResolver(context, validator);
+        operationExtractor = mock(SimpleOperationExtractor.class);
+        operandsExtractor = mock(SimpleOperandsExtractor.class);
+        commandResolver = new SimpleCommandResolver(operationExtractor, operandsExtractor);
     }
 
     @ParameterizedTest
@@ -57,7 +57,8 @@ class SimpleCommandResolverTest {
         final OperationConfig operationConfig = mock(OperationConfig.class);
 
         // Given
-        given(context.fromOperationString(operation)).willReturn(operationConfig);
+        given(operationExtractor.getOperation(command)).willReturn(operation);
+        given(operandsExtractor.getOperands(command)).willReturn(List.of(firstNumber, secondNumber));
         given(operationConfig.getRequiredNumbers()).willReturn(2);
 
         // When
@@ -71,99 +72,6 @@ class SimpleCommandResolverTest {
 
     }
 
-    @Test
-    void Can_throw_exception_when_contain_illegal_operation(){
-        // Given
-        final String operation = someAlphaString(1, 10);
-        final Double firstNumber = somePositiveDouble();
-        final Double secondNumber = somePositiveDouble();
-        final String command = String.format(LEGAL_INPUT_FORMAT, firstNumber, operation, secondNumber);
-
-        // Then
-        assertThrows(IllegalOperationException.class, () -> commandResolver.mapToExpression(command));
-
-    }
-
-
-    @ParameterizedTest
-    @MethodSource(value = "provideRandomOperation")
-    void Can_throw_exception_when_contain_multiple_operation(String operationString){
-        // Given
-        final String operation = operationString + operationString;
-        final Double firstNumber = somePositiveDouble();
-        final Double secondNumber = somePositiveDouble();
-        final String command = String.format(LEGAL_INPUT_FORMAT, firstNumber, operation, secondNumber);
-
-        // Then
-        assertThrows(IllegalOperationException.class, () -> commandResolver.mapToExpression(command));
-
-    }
-
-    @ParameterizedTest
-    @MethodSource(value = "provideRandomOperation")
-    void Can_throw_exception_when_expected_operands_not_found(String operation){
-
-        final OperationConfig operationConfig = mock(OperationConfig.class);
-        final String firstNumber = someAlphaString();
-        final String secondNumber = someAlphaString();
-        final String command = String.format(ILLEGAL_INPUT_FORMAT, firstNumber, operation, secondNumber);
-
-        // Given
-        given(context.fromOperationString(operation)).willReturn(operationConfig);
-        given(operationConfig.getRequiredNumbers()).willReturn(2);
-
-        // Then
-        assertThrows(IllegalOperandException.class, () -> commandResolver.mapToExpression(command));
-
-    }
-
-
-    @ParameterizedTest
-    @MethodSource(value = "provideRandomOperation")
-    void Can_throw_exception_when_numbers_of_operands_not_expected(String operation){
-
-        // Given
-        final OperationConfig operationConfig = mock(OperationConfig.class);
-        final String firstNumber = String.format("%.9f", somePositiveDouble());
-        final String secondNumber = "";
-
-        final String command = String.format(ILLEGAL_INPUT_FORMAT, firstNumber, operation, secondNumber);
-
-        // Given
-        given(context.fromOperationString(operation)).willReturn(operationConfig);
-        given(context.fromOperationString(operation)).willReturn(operationConfig);
-        given(operationConfig.getRequiredNumbers()).willReturn(2);
-
-        // Then
-        assertThrows(IllegalOperandException.class, () -> commandResolver.mapToExpression(command));
-    }
-
-    @ParameterizedTest
-    @MethodSource(value = "provideRandomOperation")
-    void Can_validate_legal_command(String operation){
-        final Double firstNumber = somePositiveDouble();
-        final Double secondNumber = somePositiveDouble();
-        final String command = String.format(LEGAL_INPUT_FORMAT, firstNumber, operation, secondNumber);
-
-        // Then
-        assertDoesNotThrow(()->commandResolver.validateInput(command));
-
-    }
-
-    @Test
-    void Can_validate_illegal_command(){
-        final String operation = someAlphaString();
-        final String firstNumber = someAlphaString();
-        final String secondNumber = someAlphaString();
-        final String command = String.format(ILLEGAL_INPUT_FORMAT, firstNumber, operation, secondNumber);
-
-        // Given
-        doThrow(IllegalExpressionException.class).when(validator).validate(command);
-
-        // Then
-        assertThrows(IllegalExpressionException.class, () -> commandResolver.validateInput(command));
-
-    }
 
     private static Stream<Arguments> provideRandomOperation() {
         final int index = someIntegerBetween(0, 3);

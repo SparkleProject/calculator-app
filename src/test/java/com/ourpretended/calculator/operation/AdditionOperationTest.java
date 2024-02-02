@@ -2,9 +2,7 @@ package com.ourpretended.calculator.operation;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.framework;
 import static shiver.me.timbers.data.random.RandomDoubles.someDouble;
 import static org.mockito.Mockito.mock;
 
@@ -35,7 +33,7 @@ class AdditionOperationTest {
         given(operands.get(1)).willReturn(second);
 
         // When
-        final Double actual = additionOperation.execute(operands);
+        final Double actual = additionOperation.execute(first, second);
         // Then
         assertThat(actual, equalTo(expected));
     }

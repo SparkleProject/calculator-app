@@ -8,7 +8,7 @@ public class OperationConfig {
     private  int requiredNumbers;
     private IOperation operationClass;
 
-    protected OperationConfig(
+    public OperationConfig(
             String operationName,
             int requiredNumbers,
             IOperation operationClass

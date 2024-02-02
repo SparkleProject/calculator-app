@@ -34,7 +34,7 @@ class MultiplicationOperationTest {
         given(operands.get(1)).willReturn(second);
 
         // When
-        final Double actual = multiplicationOperation.execute(operands);
+        final Double actual = multiplicationOperation.execute(first, second);
 
         // Then
         assertThat(actual, equalTo(expected));

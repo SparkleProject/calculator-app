@@ -19,15 +19,15 @@ public class OperationFactory {
     }
 
     public IOperation buildOperation(
-            Expression expression
+            String operation
     ) {
         try {
-            OperationConfig operationConfig = context.fromOperationString(expression.getOperation());
+            OperationConfig operationConfig = context.fromOperationString(operation);
             if(operationConfig != null){
                 return operationConfig.getOperationClass();
             }
         }catch (Exception exception){
-            System.out.println("Failed to build Operation with name: " + expression.getOperation());
+            System.out.println("Failed to build Operation with name: " + operation);
         }
         return null;
     }

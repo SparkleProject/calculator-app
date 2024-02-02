@@ -34,7 +34,6 @@ class OperationFactoryTest {
     @Test
     void Can_build_operation_with_expected_operation_type(){
         final String operationString = someAlphaString();
-        final Expression expression = mock(Expression.class);
         final OperationConfig operationConfig = mock(OperationConfig.class);
         final IOperation operation =  mock(IOperation.class);
 
@@ -42,10 +41,9 @@ class OperationFactoryTest {
         // Given
         given(context.fromOperationString(operationString)).willReturn(operationConfig);
         given(operationConfig.getOperationClass()).willReturn(operation);
-        given(expression.getOperation()).willReturn(operationString);
 
         // When
-        final IOperation actual = operationFactory.buildOperation(expression);
+        final IOperation actual = operationFactory.buildOperation(operationString);
 
         // Then
         assertThat(actual, notNullValue());
@@ -56,13 +54,9 @@ class OperationFactoryTest {
     @Test
     void Can_fail_build_operation_with_unknown_operation(){
         final String operationString = someAlphaString();
-        final Expression expression = mock(Expression.class);
-
-        // Given
-        given(expression.getOperation()).willReturn(operationString);
 
         // When
-        final IOperation actual = operationFactory.buildOperation(expression);
+        final IOperation actual = operationFactory.buildOperation(operationString);
 
         // Then
         assertThat(actual, nullValue());

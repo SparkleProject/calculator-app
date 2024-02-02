@@ -5,5 +5,4 @@ import com.ourpretended.calculator.model.Expression;
 
 public interface ICommandResolver {
     Expression mapToExpression(String input);
-    void validateInput(String input);
 }

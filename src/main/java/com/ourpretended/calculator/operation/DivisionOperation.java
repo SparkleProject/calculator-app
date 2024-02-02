@@ -8,26 +8,21 @@ import java.math.RoundingMode;
 import java.util.List;
 
 public class DivisionOperation implements IOperation {
+    private static final int RESULT_SCALE_QUOTIENT = 18;
 
     @Override
-    public Double execute(List<Double> operands) {
+    public Double execute(double dividend, double divisor) {
 
-        validate(operands);
+        if(Double.valueOf(0.0).equals(divisor)){
+            throw new IllegalOperandException("Can not divide by ZERO.");
+        }
 
-        final double firstNum = operands.get(0);
-        final double secondNum = operands.get(1);
-
-        return BigDecimal.valueOf(firstNum)
-                .divide(BigDecimal.valueOf(secondNum),
-                        ApplicationConstants.RESULT_SCALE_QUOTIENT,
+        return BigDecimal.valueOf(dividend)
+                .divide(BigDecimal.valueOf(divisor),
+                        RESULT_SCALE_QUOTIENT,
                         RoundingMode.HALF_UP)
                 .doubleValue();
     }
 
-    private void validate(List<Double> operands){
-        if(operands.get(1).equals(0.0)){
-            throw new IllegalOperandException("Can not divide by ZERO.");
-        }
-    }
 
 }

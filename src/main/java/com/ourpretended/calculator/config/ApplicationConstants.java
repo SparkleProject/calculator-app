@@ -14,9 +14,14 @@ public class ApplicationConstants {
     @SuppressWarnings("InstantiationOfUtilityClass")
     static final ApplicationConstants INSTANCE = new ApplicationConstants();
 
+    public static final String ADDITION = "+";
+    public static final String SUBTRACTION = "-";
+    public static final String MULTIPLICATION = "*";
+    public static final String DIVISION = "/";
+    public static final String SIN = "sin";
+
     public static final String OPERAND_REGEX = "[0-9]+[.]?[0-9]*";
-    public static final String OPERATION_REGEX = "[+\\-*/]";
-    public static final int RESULT_SCALE_QUOTIENT = 18;
+    public static final String OPERATION_REGEX = "[+\\-*/#]";
 
 
     private ApplicationConstants() {

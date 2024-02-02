@@ -9,9 +9,11 @@ public class SimpleCommandValidator implements ICommandValidator {
 
     private final static String COMMAND_SINGLE_OPERATION = OPERAND_REGEX+"\\s+"+OPERATION_REGEX+"\\s+"+OPERAND_REGEX;
 
+    // sin(5.1)
+
     @Override
     public void validate(String input){
-        if(!input.matches(COMMAND_SINGLE_OPERATION)){
+        if( !input.matches(COMMAND_SINGLE_OPERATION) ){
             throw new IllegalExpressionException("Illegal command.");
         }
     }

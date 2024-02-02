@@ -1,16 +1,13 @@
 package com.ourpretended.calculator.operation;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 public class MultiplicationOperation implements IOperation {
 
     @Override
-    public Double execute(List<Double> operands) {
-        final double firstNum = operands.get(0);
-        final double secondNum = operands.get(1);
-        return BigDecimal.valueOf(firstNum)
-                .multiply(BigDecimal.valueOf(secondNum))
+    public Double execute(double firstNumber, double secondNumber) {
+        return BigDecimal.valueOf(firstNumber)
+                .multiply(BigDecimal.valueOf(secondNumber))
                 .doubleValue();
     }
 

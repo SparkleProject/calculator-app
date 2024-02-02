@@ -8,15 +8,14 @@ import com.ourpretended.calculator.operation.SubtractionOperation;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.ourpretended.calculator.config.ApplicationConstants.ADDITION;
+import static com.ourpretended.calculator.config.ApplicationConstants.DIVISION;
+import static com.ourpretended.calculator.config.ApplicationConstants.MULTIPLICATION;
+import static com.ourpretended.calculator.config.ApplicationConstants.SUBTRACTION;
+
 public class OperationContext {
 
-    private static final String ADDITION = "+";
-    private static final String SUBTRACTION = "-";
-    private static final String MULTIPLICATION = "*";
-    private static final String DIVISION = "/";
-
     private static final Map<String, OperationConfig> operationMap = new HashMap<>();
-
 
     static {
       operationMap.put(ADDITION,

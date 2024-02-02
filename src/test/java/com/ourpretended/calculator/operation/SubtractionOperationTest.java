@@ -34,7 +34,7 @@ class SubtractionOperationTest {
         given(operands.get(1)).willReturn(second);
 
         // When
-        final Double actual = subtractionOperation.execute(operands);
+        final Double actual = subtractionOperation.execute(first, second);
 
         // Then
         assertThat(actual, equalTo(expected));
